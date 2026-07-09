@@ -1,1 +1,77 @@
-<p>detalhes works!</p>
+<div class="detalhes-container">
+  
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    Carregando detalhes do jogo...
+  </div>
+
+  <div *ngIf="hasError" class="error-state">
+    <h2>Jogo não encontrado</h2>
+    <p>O jogo que você está procurando não existe ou houve um erro de comunicação com a API.</p>
+    <a routerLink="/catalogo" class="btn">Voltar ao Catálogo</a>
+  </div>
+
+  <div *ngIf="game" class="game-content">
+    
+    <div class="banner">
+      <img [src]="game.background_image" [alt]="game.name" *ngIf="game.background_image">
+      <div class="banner-overlay">
+        <h1>{{ game.name }}</h1>
+        <p class="rating">Nota RAWG: <strong>{{ game.rating }}</strong></p>
+      </div>
+    </div>
+
+    <div class="meta-info">
+      <div class="meta-item">
+        <h3>Lançamento</h3>
+        <p>{{ game.released | date:'longDate' }}</p>
+      </div>
+      
+      <div class="meta-item">
+        <h3>Desenvolvedora(s)</h3>
+        <p>
+          <span *ngFor="let dev of game.developers; let last = last">
+            {{ dev.name }}<span *ngIf="!last">, </span>
+          </span>
+        </p>
+      </div>
+
+      <div class="meta-item">
+        <h3>Plataformas</h3>
+        <p>
+          <span class="badge" *ngFor="let plat of game.platforms">
+            {{ plat.platform.name }}
+          </span>
+        </p>
+      </div>
+
+      <div class="meta-item">
+        <h3>Gêneros</h3>
+        <p>
+          <span class="badge badge-accent" *ngFor="let genre of game.genres">
+            {{ genre.name }}
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="description">
+      <h2>Sobre</h2>
+      <p>{{ game.description_raw }}</p>
+    </div>
+
+    <div class="screenshots" *ngIf="game.screenshots && game.screenshots.length > 0">
+      <h2>Galeria</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item" *ngFor="let shot of game.screenshots">
+          <img [src]="shot.image" alt="Screenshot de {{ game.name }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/catalogo" class="btn-outline">Voltar ao Catálogo</a>
+    </div>
+  </div>
+
+</div>

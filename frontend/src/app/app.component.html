@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<nav class="main-nav">
+  <div class="nav-brand"><a routerLink="/">GamingApp</a></div>
+  <div class="nav-links">
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
+    <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+  </div>
+</nav>
+<main>
+  <router-outlet></router-outlet>
+</main>

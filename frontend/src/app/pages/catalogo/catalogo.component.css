@@ -1,0 +1,35 @@
+.catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--bg-color-light);
+  padding-bottom: 0.5rem;
+}
+
+.filters-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: var(--bg-color-light);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.filter-group {
+  flex: 1 1 250px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background-color: var(--bg-color-light);
+  border-radius: var(--border-radius);
+  color: #aaa;
+  font-size: 1.25rem;
+}

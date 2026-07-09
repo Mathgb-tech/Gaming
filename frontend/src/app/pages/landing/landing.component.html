@@ -1,1 +1,39 @@
-<p>landing works!</p>
+<div class="landing-container">
+  <header>
+    <h1>Catálogo de Jogos</h1>
+    <p>Descubra e explore milhares de jogos usando a nossa plataforma integrada com a RAWG.</p>
+    <div class="actions">
+      <a routerLink="/login" class="btn">Entrar</a>
+      <a routerLink="/cadastro" class="btn-outline">Cadastrar</a>
+    </div>
+  </header>
+
+  <section class="carousel-section" *ngIf="featuredGames.length > 0">
+    <h2>Jogos em Destaque</h2>
+    
+    <div class="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item" 
+             *ngFor="let game of featuredGames; let i = index" 
+             [class.active]="i === currentIndex">
+             
+          <img [src]="game.background_image" [alt]="game.name" class="carousel-img">
+          
+          <div class="carousel-caption">
+            <h3>{{ game.name }}</h3>
+            <p>Avaliação: {{ game.rating }}</p>
+            <a routerLink="/login" class="btn-details">Ver Detalhes (Requer Login)</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="carousel-indicators">
+        <span *ngFor="let game of featuredGames; let i = index" 
+              class="dot" 
+              [class.active]="i === currentIndex"
+              (click)="setIndex(i)">
+        </span>
+      </div>
+    </div>
+  </section>
+</div>

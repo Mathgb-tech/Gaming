@@ -1,1 +1,53 @@
-<p>catalogo works!</p>
+<div class="catalog-container">
+  <h2>Catálogo de Jogos</h2>
+
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="search">Busca por Nome</label>
+      <input 
+        type="text" 
+        id="search"
+        placeholder="Digite o nome..." 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)">
+    </div>
+
+    <div class="filter-group">
+      <label for="genre">Gênero</label>
+      <select id="genre" [(ngModel)]="selectedGenre" (ngModelChange)="onGenreChange($event)">
+        <option value="">Todos os Gêneros</option>
+        <option *ngFor="let genre of genres" [value]="genre.slug">{{ genre.name }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="ordering">Ordenar por</label>
+      <select id="ordering" [(ngModel)]="selectedOrdering" (ngModelChange)="onOrderChange($event)">
+        <option value="">Relevância (Padrão)</option>
+        <option value="avaliacao">Melhor Avaliação</option>
+        <option value="lancamento">Lançamento Recente</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    Buscando jogos...
+  </div>
+
+  <div *ngIf="!isLoading && hasSearched && games.length === 0" class="empty-state">
+    Nenhum resultado encontrado para os filtros selecionados.
+  </div>
+
+  <div class="games-grid" *ngIf="!isLoading && games.length > 0">
+    <div class="game-card" *ngFor="let game of games">
+      <img [src]="game.background_image" [alt]="game.name" class="card-img" *ngIf="game.background_image">
+      <div class="card-img-placeholder" *ngIf="!game.background_image">Sem imagem</div>
+      
+      <div class="card-content">
+        <h3>{{ game.name }}</h3>
+        <p>Nota: {{ game.rating }}</p>
+        <a [routerLink]="['/jogos', game.id]" class="btn">Ver Detalhes</a>
+      </div>
+    </div>
+  </div>
+</div>
