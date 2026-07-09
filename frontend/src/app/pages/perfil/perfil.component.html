@@ -1,0 +1,51 @@
+<div class="perfil-container" *ngIf="user">
+  <h2>Meu Perfil</h2>
+  
+  <div *ngIf="message" class="success">{{ message }}</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!editMode">
+    <p><strong>Nome:</strong> {{ user.nome }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Membro desde:</strong> {{ user.created_at | date }}</p>
+    
+    <button (click)="toggleEdit()">Editar Perfil</button>
+    <button (click)="logout()">Sair (Logout)</button>
+  </div>
+
+  <div *ngIf="editMode">
+    <form (ngSubmit)="onSave()" #perfilForm="ngForm">
+      <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" [(ngModel)]="editData.nome" required>
+      </div>
+
+      <div>
+        <label for="email">Email (não editável):</label>
+        <input type="email" id="email" [value]="user.email" disabled>
+      </div>
+
+      <div class="password-section">
+        <h3>Alterar Senha</h3>
+        <p class="hint">Deixe em branco se não quiser alterar.</p>
+        
+        <div>
+          <label for="senha">Nova Senha:</label>
+          <input type="password" id="senha" name="senha" [(ngModel)]="editData.senha">
+        </div>
+        
+        <div *ngIf="editData.senha">
+          <label for="confirmarSenha">Confirmar Nova Senha:</label>
+          <input type="password" id="confirmarSenha" name="confirmarSenha" [(ngModel)]="editData.confirmarSenha" required>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!perfilForm.valid || (editData.senha && editData.senha !== editData.confirmarSenha)">Salvar</button>
+      <button type="button" (click)="toggleEdit()">Cancelar</button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="!user">
+  Carregando perfil...
+</div>

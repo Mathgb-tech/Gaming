@@ -1,0 +1,38 @@
+<div class="cadastro-container">
+  <h2>Cadastro</h2>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  
+  <form (ngSubmit)="onSubmit()" #cadastroForm="ngForm">
+    <div>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" [(ngModel)]="user.nome" required #nome="ngModel">
+      <div *ngIf="nome.invalid && nome.touched" class="error">Nome é obrigatório.</div>
+    </div>
+    
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="user.email" required #email="ngModel">
+      <div *ngIf="email.invalid && email.touched" class="error">Email é obrigatório.</div>
+    </div>
+    
+    <div>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" [(ngModel)]="user.senha" required #senha="ngModel">
+      <div *ngIf="senha.invalid && senha.touched" class="error">Senha é obrigatória.</div>
+    </div>
+    
+    <div>
+      <label for="confirmarSenha">Confirmar Senha:</label>
+      <input type="password" id="confirmarSenha" name="confirmarSenha" [(ngModel)]="user.confirmarSenha" required>
+    </div>
+    
+    <div>
+      <input type="checkbox" id="aceite_lgpd" name="aceite_lgpd" [(ngModel)]="user.aceite_lgpd" required>
+      <label for="aceite_lgpd">Li e concordo com a Política de Privacidade (LGPD)</label>
+    </div>
+    
+    <button type="submit" [disabled]="!cadastroForm.valid || user.senha !== user.confirmarSenha || !user.aceite_lgpd">Cadastrar</button>
+  </form>
+  
+  <p>Já tem uma conta? <a routerLink="/login">Faça login</a></p>
+</div>
