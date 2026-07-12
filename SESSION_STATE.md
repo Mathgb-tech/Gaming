@@ -109,7 +109,9 @@
 
 ### Arquitetura Serverless (Vercel)
 A aplicação foi migrada para funcionar em ambiente serverless na Vercel (monorepo), mantendo a mesma base de código do backend Express:
-- **Native Express Serverless (Fix)**: O pacote `serverless-http` foi removido de `api/index.js` pois causava um travamento (timeout de 5 min) na Vercel. A plataforma da Vercel já suporta a assinatura `(req, res)` do Express nativamente através do seu ambiente Node. A correção foi simplesmente exportar diretamente o `app` no entrypoint `api/index.js` (`module.exports = app;`).
+- **Timeout de 5 minutos na Vercel (Causa Raiz CORS)**: O timeout de 300s nas rotas da Vercel era causado pela configuração do `cors` no `server.js`. Anteriormente, origens não listadas geravam um `throw new Error()`, que, por ser síncrono e não tratado no contexto da função lambda, fazia a requisição travar eternamente até o timeout.
+  - *Correção*: A função de `origin` do CORS foi reescrita para nunca lançar erros brutos, usando `callback(new Error('Not allowed'), false)` em caso de falha.
+  - *Origens Dinâmicas*: Como a Vercel gera domínios únicos de preview em cada deploy (ex: `*-matheusgubert88.vercel.app`), a lista fixa foi substituída por validação dinâmica, aceitando `http://localhost:` e qualquer domínio que termine com `.vercel.app` e contenha `gaming`. Requisições barradas agora emitem um `console.log("[CORS REJECTED] ...")` imediato.
 - **`server.js`** refatorado para usar o `mainRouter` sob o prefixo `/api` e exportar o app. O servidor (`app.listen`) agora só sobe automaticamente em modo de desenvolvimento local (`if (require.main === module)`).
 - **`vercel.json`** atualizado para rodar o build explicitamente com `--configuration production` a fim de evitar que Vercel buildasse com os environments de desenvolvimento.
 - **`angular.json`** corrigido adicionando a diretiva de `fileReplacements` no alvo de produção, substituindo corretamente o `environment.ts` (dev) pelo `environment.prod.ts` (prod com URL relativa da API) durante o build da Vercel.

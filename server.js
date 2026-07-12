@@ -6,21 +6,22 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// CORS: permite localhost em dev e o domínio da Vercel em prod
-const allowedOrigins = [
-  'http://localhost:4200',
-  'http://localhost:3000',
-  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
-  process.env.FRONTEND_URL || null,
-].filter(Boolean);
-
 app.use(cors({
   origin: (origin, callback) => {
-    // Permite requests sem origin (ex: Postman, curl) e origins da lista
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
-      callback(null, true);
+    // Permite requests sem origin (ex: Postman)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Verifica origens permitidas dinamicamente
+    const isLocalhost = origin.startsWith('http://localhost:');
+    const isVercel = origin.endsWith('.vercel.app') && origin.includes('gaming');
+    
+    if (isLocalhost || isVercel) {
+      return callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log(`[CORS REJECTED] Origem não permitida: ${origin}`);
+      return callback(new Error('Not allowed by CORS'), false);
     }
   },
   credentials: true
