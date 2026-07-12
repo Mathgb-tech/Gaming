@@ -109,7 +109,7 @@
 
 ### Arquitetura Serverless (Vercel)
 A aplicação foi migrada para funcionar em ambiente serverless na Vercel (monorepo), mantendo a mesma base de código do backend Express:
-- **`serverless-http`** instalado e configurado em `api/index.js` como wrapper da aplicação.
+- **Native Express Serverless (Fix)**: O pacote `serverless-http` foi removido de `api/index.js` pois causava um travamento (timeout de 5 min) na Vercel. A plataforma da Vercel já suporta a assinatura `(req, res)` do Express nativamente através do seu ambiente Node. A correção foi simplesmente exportar diretamente o `app` no entrypoint `api/index.js` (`module.exports = app;`).
 - **`server.js`** refatorado para usar o `mainRouter` sob o prefixo `/api` e exportar o app. O servidor (`app.listen`) agora só sobe automaticamente em modo de desenvolvimento local (`if (require.main === module)`).
 - **`vercel.json`** atualizado para rodar o build explicitamente com `--configuration production` a fim de evitar que Vercel buildasse com os environments de desenvolvimento.
 - **`angular.json`** corrigido adicionando a diretiva de `fileReplacements` no alvo de produção, substituindo corretamente o `environment.ts` (dev) pelo `environment.prod.ts` (prod com URL relativa da API) durante o build da Vercel.
