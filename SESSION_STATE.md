@@ -105,6 +105,23 @@
 ### Correções Específicas Finais (Sessão Atual)
 - **Ocultação da Global Nav:** Refatorado `app.component.ts` para ocultar o navbar não apenas na Landing (`/`), mas também em `/login` e `/cadastro`, permitindo o layout auth ocupar 100% da tela.
 - **Redesign Login & Cadastro (Figma Match):** Implementado o layout de tela dividida (`.auth-layout`). Metade da tela tem uma imagem overlaying escura (`Bem-vindo de volta` / `Comece sua jornada`) e a outra metade possui o form, ambos centralizados e contendo logo da landing no canto superior do lado direito do contêiner flex. Transferido o CSS modular deles para `styles.css` a fim de usar classes globais sem repetição.
-- **Bug do carousel com texto sobreposto (Landing):** Removido o `position: absolute` do bloco de texto. O card agora usa `flex-direction: column`.
-- **Interface `Game`** atualizada com `genres?: Genre[]` para suportar badges de gênero.
 - **Budget CSS** aumentado para `16kB/24kB` em `angular.json` para acomodar o CSS detalhado dos componentes.
+
+### Arquitetura Serverless (Vercel)
+A aplicação foi migrada para funcionar em ambiente serverless na Vercel (monorepo), mantendo a mesma base de código do backend Express:
+- **`serverless-http`** instalado e configurado em `api/index.js` como wrapper da aplicação.
+- **`server.js`** refatorado para usar o `mainRouter` sob o prefixo `/api` e exportar o app. O servidor (`app.listen`) agora só sobe automaticamente em modo de desenvolvimento local (`if (require.main === module)`).
+- **`vercel.json`** criado na raiz para orquestrar o build do Angular, redirecionando o tráfego da API para `/api/index` e mantendo o fallback padrão para o `index.html` nas rotas do Angular.
+- **Variáveis de Ambiente `environment.ts`**: Frontend atualizado para chamar o backend em `/api` (prod) ou `http://localhost:3000/api` (dev), herdando essa base URL em todos os endpoints HTTP.
+- **Cookies HttpOnly**: Funcionarão corretamente, pois a Vercel emulará a mesma origem para o frontend e a `/api`. Em desenvolvimento local, o CORS foi configurado explicitamente para incluir `http://localhost:4200` e o futuro `VERCEL_URL`.
+
+**Deploy na Vercel (Instruções)**:
+1. Conecte o repositório na Vercel.
+2. Certifique-se que o "Framework Preset" é _Angular_ ou _Other_ dependendo da detecção automática. O `vercel.json` na raiz deve cobrir os comandos de build de qualquer forma.
+3. Root Directory: `.` (Raiz do repositório).
+4. Cadastre as **Environment Variables** no dashboard:
+   - `SUPABASE_URL`
+   - `SUPABASE_KEY`
+   - `JWT_SECRET`
+   - `RAWG_API_KEY`
+5. Realize o deploy.
