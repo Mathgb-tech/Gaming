@@ -111,7 +111,8 @@
 A aplicação foi migrada para funcionar em ambiente serverless na Vercel (monorepo), mantendo a mesma base de código do backend Express:
 - **`serverless-http`** instalado e configurado em `api/index.js` como wrapper da aplicação.
 - **`server.js`** refatorado para usar o `mainRouter` sob o prefixo `/api` e exportar o app. O servidor (`app.listen`) agora só sobe automaticamente em modo de desenvolvimento local (`if (require.main === module)`).
-- **`vercel.json`** criado na raiz para orquestrar o build do Angular, redirecionando o tráfego da API para `/api/index` e mantendo o fallback padrão para o `index.html` nas rotas do Angular.
+- **`vercel.json`** atualizado para rodar o build explicitamente com `--configuration production` a fim de evitar que Vercel buildasse com os environments de desenvolvimento.
+- **`angular.json`** corrigido adicionando a diretiva de `fileReplacements` no alvo de produção, substituindo corretamente o `environment.ts` (dev) pelo `environment.prod.ts` (prod com URL relativa da API) durante o build da Vercel.
 - **Variáveis de Ambiente `environment.ts`**: Frontend atualizado para chamar o backend em `/api` (prod) ou `http://localhost:3000/api` (dev), herdando essa base URL em todos os endpoints HTTP.
 - **Cookies HttpOnly**: Funcionarão corretamente, pois a Vercel emulará a mesma origem para o frontend e a `/api`. Em desenvolvimento local, o CORS foi configurado explicitamente para incluir `http://localhost:4200` e o futuro `VERCEL_URL`.
 

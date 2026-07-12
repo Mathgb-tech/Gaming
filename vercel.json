@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
+  "buildCommand": "cd frontend && npm install && npx ng build --configuration production",
   "outputDirectory": "frontend/dist/frontend/browser",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
