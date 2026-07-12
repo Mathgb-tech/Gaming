@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { GamesService, GameDetails } from '../../services/games.service';
+import { GamesService, GameDetails, Screenshot } from '../../services/games.service';
 
 @Component({
   selector: 'app-detalhes',
@@ -15,6 +15,9 @@ export class DetalhesComponent implements OnInit {
   isLoading = true;
   hasError = false;
 
+  activeScreenshot: Screenshot | null = null;
+  descriptionExpanded = false;
+
   constructor(
     private route: ActivatedRoute,
     private gamesService: GamesService
@@ -26,6 +29,9 @@ export class DetalhesComponent implements OnInit {
       this.gamesService.getGameDetails(id).subscribe({
         next: (data) => {
           this.game = data;
+          if (data.screenshots && data.screenshots.length > 0) {
+            this.activeScreenshot = data.screenshots[0];
+          }
           this.isLoading = false;
         },
         error: (err) => {
@@ -38,5 +44,14 @@ export class DetalhesComponent implements OnInit {
       this.hasError = true;
       this.isLoading = false;
     }
+  }
+
+  selectScreenshot(shot: Screenshot): void {
+    this.activeScreenshot = shot;
+  }
+
+  getDevelopers(): string {
+    if (!this.game?.developers?.length) return 'Desconhecida';
+    return this.game.developers.map(d => d.name).join(', ');
   }
 }

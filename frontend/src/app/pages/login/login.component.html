@@ -1,20 +1,84 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <div>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" [(ngModel)]="credentials.email" required>
+<div class="auth-layout">
+  <!-- Coluna da Esquerda (Imagem) -->
+  <div class="auth-bg-col login-bg">
+    <div class="auth-bg-overlay"></div>
+    <div class="auth-bg-content">
+      <h2 class="auth-bg-title">
+        Restaure seu save e continue explorando, <span class="accent-text">Jogador.</span>
+      </h2>
     </div>
-    
-    <div>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" [(ngModel)]="credentials.senha" required>
+  </div>
+
+  <!-- Coluna da Direita (Formulário) -->
+  <div class="auth-form-col">
+    <a routerLink="/" class="auth-logo">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0-20 0z"></path></svg>
+      <span>CATÁLOGO <span class="dot-logo">.</span></span>
+    </a>
+
+    <div class="auth-form-container">
+      <h1 class="auth-title">Entrar</h1>
+      <p class="auth-subtitle">Acesse sua conta para continuar</p>
+
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            [(ngModel)]="credentials.email"
+            required
+            class="form-input" 
+            placeholder="seu@email.com"
+            #emailInput="ngModel"
+          >
+          <div *ngIf="emailInput.touched && emailInput.invalid" class="form-error">
+            Email inválido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="senha" class="form-label">Senha</label>
+          <div class="input-wrapper">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              id="senha" 
+              name="senha"
+              [(ngModel)]="credentials.senha"
+              required
+              class="form-input" 
+              placeholder="••••••••"
+              #senhaInput="ngModel"
+            >
+            <button type="button" class="btn-icon toggle-password" (click)="showPassword = !showPassword" aria-label="Mostrar/Ocultar senha">
+              <!-- Ícone Olho Fechado -->
+              <svg *ngIf="!showPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              <!-- Ícone Olho Aberto -->
+              <svg *ngIf="showPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+          <div *ngIf="senhaInput.touched && senhaInput.invalid" class="form-error">
+            A senha é obrigatória.
+          </div>
+        </div>
+
+        <div class="form-options">
+          <a routerLink="#" class="forgot-link">Esqueci minha senha</a>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert-error">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn btn-full" [disabled]="loginForm.invalid">
+          <span>ENTRAR</span>
+        </button>
+      </form>
+
+      <p class="auth-switch">
+        Não tem conta? <a routerLink="/cadastro" class="accent-link">Cadastrar</a>
+      </p>
     </div>
-    
-    <button type="submit" [disabled]="!loginForm.valid">Entrar</button>
-  </form>
-  
-  <p>Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a></p>
+  </div>
 </div>

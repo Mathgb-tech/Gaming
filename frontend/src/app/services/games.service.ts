@@ -9,7 +9,7 @@ export interface Game {
   background_image: string;
   rating: number;
   released: string;
-  // Outros campos da RAWG que precisarmos depois
+  genres?: Genre[]; // presente nos resultados de featured/popular da RAWG
 }
 
 export interface Genre {

@@ -1,27 +1,36 @@
-<div class="catalog-container">
-  <h2>Catálogo de Jogos</h2>
+<div class="catalog-page">
 
-  <div class="filters-section">
-    <div class="filter-group">
-      <label for="search">Busca por Nome</label>
-      <input 
-        type="text" 
-        id="search"
-        placeholder="Digite o nome..." 
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="onSearchChange($event)">
+  <div class="catalog-header">
+    <h2>Catálogo</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <div class="filter-field" style="flex: 2 1 300px;">
+      <label>Busca por nome</label>
+      <div class="search-wrapper">
+        <span>&#128269;</span>
+        <input
+          type="text"
+          id="search"
+          placeholder="Ex: Red Dead Redemption..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+        >
+      </div>
     </div>
 
-    <div class="filter-group">
-      <label for="genre">Gênero</label>
+    <div class="filter-field">
+      <label>Gênero</label>
       <select id="genre" [(ngModel)]="selectedGenre" (ngModelChange)="onGenreChange($event)">
         <option value="">Todos os Gêneros</option>
         <option *ngFor="let genre of genres" [value]="genre.slug">{{ genre.name }}</option>
       </select>
     </div>
 
-    <div class="filter-group">
-      <label for="ordering">Ordenar por</label>
+    <div class="filter-field">
+      <label>Ordenar por</label>
       <select id="ordering" [(ngModel)]="selectedOrdering" (ngModelChange)="onOrderChange($event)">
         <option value="">Relevância (Padrão)</option>
         <option value="avaliacao">Melhor Avaliação</option>
@@ -30,24 +39,38 @@
     </div>
   </div>
 
+  <!-- Loading -->
   <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
     Buscando jogos...
   </div>
 
+  <!-- Empty State -->
   <div *ngIf="!isLoading && hasSearched && games.length === 0" class="empty-state">
-    Nenhum resultado encontrado para os filtros selecionados.
+    <div class="empty-icon">🕹️</div>
+    <h3>Nenhum jogo encontrado</h3>
+    <p>Não encontramos resultados para os filtros selecionados.</p>
+    <button class="btn-ghost" (click)="searchTerm=''; selectedGenre=''; selectedOrdering=''; onSearchChange(''); onGenreChange(''); onOrderChange('')">
+      Limpar Filtros
+    </button>
   </div>
 
-  <div class="games-grid" *ngIf="!isLoading && games.length > 0">
-    <div class="game-card" *ngFor="let game of games">
-      <img [src]="game.background_image" [alt]="game.name" class="card-img" *ngIf="game.background_image">
-      <div class="card-img-placeholder" *ngIf="!game.background_image">Sem imagem</div>
-      
-      <div class="card-content">
-        <h3>{{ game.name }}</h3>
-        <p>Nota: {{ game.rating }}</p>
-        <a [routerLink]="['/jogos', game.id]" class="btn">Ver Detalhes</a>
+  <!-- Grid de jogos -->
+  <div *ngIf="!isLoading && games.length > 0">
+    <p class="results-info"><span>{{ games.length }}</span> jogos encontrados</p>
+
+    <div class="games-grid">
+      <div class="game-card" *ngFor="let game of games" [routerLink]="['/jogos', game.id]">
+        <div class="card-img-container">
+          <img [src]="game.background_image" [alt]="game.name" class="card-img" *ngIf="game.background_image">
+          <div class="card-img-placeholder" *ngIf="!game.background_image">🎮</div>
+          <div class="card-badge">&#9733; {{ game.rating }}</div>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">{{ game.name }}</h3>
+        </div>
       </div>
     </div>
   </div>
+
 </div>

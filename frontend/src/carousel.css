@@ -1,0 +1,114 @@
+/* Carousel Compartilhado (Home/Landing) */
+.carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background-color: var(--bg-card);
+}
+
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to right, rgba(11,12,16,0.95) 0%, rgba(11,12,16,0.7) 40%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+  text-align: left;
+}
+
+.carousel-caption h3 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 50%;
+}
+
+.carousel-caption p {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+/* Arrows */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background-color: rgba(11,12,16,0.6);
+  border: 1px solid var(--border-accent);
+  border-radius: 50%;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: all var(--transition);
+}
+
+.carousel-control:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.carousel-control.prev { left: 1rem; }
+.carousel-control.next { right: 1rem; }
+
+/* Dots */
+.carousel-indicators {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 3;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background-color: var(--accent);
+  box-shadow: 0 0 8px rgba(102, 252, 241, 0.6);
+}

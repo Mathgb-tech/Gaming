@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.featuredGames.length > 0) {
       this.carouselInterval = setInterval(() => {
         this.currentIndex = (this.currentIndex + 1) % this.featuredGames.length;
-      }, 3000);
+      }, 4500);
     }
   }
 

@@ -1,72 +1,101 @@
 <div class="home-container">
   
   <!-- Carousel de Destaques -->
-  <section class="carousel-section" *ngIf="featuredGames.length > 0">
-    <h2>Jogos em Destaque</h2>
-    
+  <section *ngIf="featuredGames.length > 0" style="margin-bottom: 4rem;">
+    <div class="section-header">
+      <h2>Em Destaque</h2>
+      <div class="section-line"></div>
+    </div>
+
     <div class="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item" 
-             *ngFor="let game of featuredGames; let i = index" 
+        <div class="carousel-item"
+             *ngFor="let game of featuredGames; let i = index"
              [class.active]="i === currentIndex">
-             
           <img [src]="game.background_image" [alt]="game.name" class="carousel-img">
-          
           <div class="carousel-caption">
             <h3>{{ game.name }}</h3>
-            <p>Avaliação: {{ game.rating }}</p>
-            <a [routerLink]="['/jogos', game.id]" class="btn-details">Ver Detalhes</a>
+            <p>&#9733; {{ game.rating }} / 5</p>
+            <a [routerLink]="['/jogos', game.id]" class="btn-details">Ver Detalhes &#8599;</a>
           </div>
         </div>
       </div>
-      
+
       <div class="carousel-indicators">
-        <span *ngFor="let game of featuredGames; let i = index" 
-              class="dot" 
+        <span class="dot"
+              *ngFor="let game of featuredGames; let i = index"
               [class.active]="i === currentIndex"
-              (click)="setIndex(i)">
+              (click)="currentIndex = i">
         </span>
       </div>
+      <button class="carousel-control prev"
+              (click)="currentIndex = (currentIndex > 0) ? currentIndex - 1 : featuredGames.length - 1">
+        &#10094;
+      </button>
+      <button class="carousel-control next"
+              (click)="currentIndex = (currentIndex < featuredGames.length - 1) ? currentIndex + 1 : 0">
+        &#10095;
+      </button>
     </div>
   </section>
 
   <!-- Barra de Busca -->
   <section class="search-section">
-    <h2>Buscar Jogos</h2>
-    <input 
-      type="text" 
-      placeholder="Digite o nome do jogo..." 
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="onSearchChange($event)">
-      
-    <div *ngIf="isSearching">Buscando...</div>
-    
-    <div class="games-grid" *ngIf="searchResults.length > 0">
-      <div class="game-card" *ngFor="let game of searchResults">
-        <img [src]="game.background_image" [alt]="game.name" class="card-img">
+    <div class="section-header">
+      <h2>Buscar Jogos</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div style="position: relative; max-width: 600px;">
+      <span style="position: absolute; top: 0.85rem; left: 1rem; color: var(--text-muted); pointer-events: none;">&#128269;</span>
+      <input
+        type="text"
+        placeholder="Digite o nome do jogo..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)"
+        style="padding-left: 2.5rem;"
+      >
+    </div>
+
+    <div *ngIf="isSearching" class="loading-state" style="padding: 2rem;">
+      <div class="spinner"></div>
+    </div>
+
+    <div class="games-grid" *ngIf="searchResults.length > 0" style="margin-top: 2rem;">
+      <div class="game-card" *ngFor="let game of searchResults" [routerLink]="['/jogos', game.id]">
+        <div class="card-img-container">
+          <img [src]="game.background_image" [alt]="game.name" class="card-img" *ngIf="game.background_image">
+          <div class="card-img-placeholder" *ngIf="!game.background_image">Sem imagem</div>
+          <div class="card-badge">&#9733; {{ game.rating }}</div>
+        </div>
         <div class="card-content">
-          <h3>{{ game.name }}</h3>
-          <p>Nota: {{ game.rating }}</p>
-          <a [routerLink]="['/jogos', game.id]" class="btn">Ver Detalhes</a>
+          <h3 class="card-title">{{ game.name }}</h3>
         </div>
       </div>
     </div>
-    
-    <div *ngIf="searchTerm && searchResults.length === 0 && !isSearching">
+
+    <div *ngIf="searchTerm && searchResults.length === 0 && !isSearching"
+         style="margin-top: 1.5rem; color: var(--text-muted);">
       Nenhum jogo encontrado para "{{ searchTerm }}".
     </div>
   </section>
 
   <!-- Jogos Populares -->
   <section class="popular-section" *ngIf="searchTerm.trim() === ''">
-    <h2>Jogos Populares</h2>
+    <div class="section-header">
+      <h2>Populares Agora</h2>
+      <div class="section-line"></div>
+    </div>
+
     <div class="games-grid">
-      <div class="game-card" *ngFor="let game of popularGames">
-        <img [src]="game.background_image" [alt]="game.name" class="card-img">
+      <div class="game-card" *ngFor="let game of popularGames" [routerLink]="['/jogos', game.id]">
+        <div class="card-img-container">
+          <img [src]="game.background_image" [alt]="game.name" class="card-img" *ngIf="game.background_image">
+          <div class="card-img-placeholder" *ngIf="!game.background_image">Sem imagem</div>
+          <div class="card-badge">&#9733; {{ game.rating }}</div>
+        </div>
         <div class="card-content">
-          <h3>{{ game.name }}</h3>
-          <p>Nota: {{ game.rating }}</p>
-          <a [routerLink]="['/jogos', game.id]" class="btn">Ver Detalhes</a>
+          <h3 class="card-title">{{ game.name }}</h3>
         </div>
       </div>
     </div>

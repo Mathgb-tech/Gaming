@@ -1,11 +1,20 @@
-<nav class="main-nav">
-  <div class="nav-brand"><a routerLink="/">GamingApp</a></div>
-  <div class="nav-links">
-    <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
-    <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+<!-- Navbar Global (oculta se hideNavbar for true) -->
+<nav class="global-nav" *ngIf="!hideNavbar">
+  <div class="nav-container">
+    <a routerLink="/" class="nav-brand" (click)="closeMenu()">CATÁLOGO.</a>
+    
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span class="hamburger"></span>
+    </button>
+    
+    <div class="nav-links" [class.active]="isMenuOpen">
+      <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Home</a>
+      <a routerLink="/catalogo" routerLinkActive="active" (click)="closeMenu()">Catálogo</a>
+      <a routerLink="/perfil" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
+    </div>
   </div>
 </nav>
-<main>
+
+<main [class.main-content]="!hideNavbar" [class.main-full]="hideNavbar">
   <router-outlet></router-outlet>
 </main>

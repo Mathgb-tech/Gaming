@@ -1,16 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('./carousel.css');
 
 :root {
-  --bg-color: #0b0c10;
-  --bg-color-light: #1f2833;
-  --text-color: #c5c6c7;
-  --text-color-bright: #ffffff;
-  --accent-color: #66fcf1;
-  --accent-color-hover: #45a29e;
-  --error-color: #ff5252;
-  --success-color: #69f0ae;
-  --border-radius: 8px;
-  --transition-speed: 0.3s;
+  --bg-primary: #0b0c10;
+  --bg-card: #1a1d2e;
+  --bg-input: #141820;
+  --text-primary: #e0e1e6;
+  --text-secondary: #c5c6c7;
+  --text-muted: #6b7280;
+  --accent: #66fcf1;
+  --accent-foreground: #0b0c10;
+  --destructive: #ff4d6d;
+  --border-accent: rgba(102, 252, 241, 0.12);
+  --radius: 0.5rem;
+  --transition: 0.3s ease;
 }
 
 * {
@@ -20,207 +23,549 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  font-family: 'Barlow', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--text-color-bright);
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text-primary);
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 a {
-  color: var(--accent-color);
+  color: var(--accent);
   text-decoration: none;
-  transition: color var(--transition-speed);
+  transition: color var(--transition);
 }
-
 a:hover {
-  color: var(--accent-color-hover);
+  color: #fff;
 }
 
-/* Formulários */
-input, select, textarea {
+/* Typography specifics */
+.text-data {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Inputs */
+input:not([type="checkbox"]), select, textarea {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--bg-color-light);
-  border-radius: var(--border-radius);
-  background-color: var(--bg-color-light);
-  color: var(--text-color-bright);
-  font-family: 'Inter', sans-serif;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.2s ease;
 }
 
-input:focus, select:focus {
+input:not([type="checkbox"]):focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--accent-color);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(102, 252, 241, 0.2);
 }
 
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
-/* Botões */
-button, .btn {
-  display: inline-block;
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   border: none;
-  border-radius: var(--border-radius);
-  background-color: var(--accent-color);
-  color: var(--bg-color);
-  font-weight: 700;
+  border-radius: 0.375rem;
   cursor: pointer;
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
-  text-align: center;
+  transition: all var(--transition);
 }
 
-button:hover, .btn:hover {
-  background-color: var(--accent-color-hover);
-  transform: translateY(-2px);
-  color: var(--bg-color);
+.btn:hover:not(:disabled) {
+  box-shadow: 0 0 24px rgba(102, 252, 241, 0.55);
 }
 
-button:disabled {
-  background-color: var(--bg-color-light);
-  color: #666;
+.btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
 }
 
-.btn-outline {
-  display: inline-block;
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
-  border: 2px solid var(--accent-color);
-  border-radius: var(--border-radius);
   background-color: transparent;
-  color: var(--accent-color);
+  color: var(--accent);
+  font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--accent);
+  border-radius: 0.375rem;
   cursor: pointer;
-  transition: all var(--transition-speed);
-  text-align: center;
+  transition: all var(--transition);
 }
 
-.btn-outline:hover {
-  background-color: var(--accent-color);
-  color: var(--bg-color);
+.btn-ghost:hover:not(:disabled) {
+  background-color: rgba(102, 252, 241, 0.1);
 }
 
-/* Utilitários */
-.error {
-  color: var(--error-color);
+/* Game Card */
+.game-card {
+  background-color: var(--bg-card);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-accent);
+  overflow: hidden;
+  position: relative;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 28px rgba(102, 252, 241, 0.18);
+  border-color: rgba(102, 252, 241, 0.35);
+}
+
+.card-img-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background-color: rgba(11, 12, 16, 0.75);
+  backdrop-filter: blur(4px);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   font-size: 0.875rem;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
 }
 
+.card-content {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+/* Utilities */
+.error {
+  color: var(--destructive);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
 .success {
-  color: var(--success-color);
-  margin-bottom: 1rem;
+  color: var(--accent);
 }
 
-/* Spinner / Loading */
+/* Spinner */
 .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: var(--accent-color);
+  color: var(--accent);
+  font-family: 'Rajdhani', sans-serif;
   font-weight: 600;
+  font-size: 1.25rem;
 }
-
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(102, 252, 241, 0.2);
-  border-left-color: var(--accent-color);
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(102, 252, 241, 0.1);
+  border-left-color: var(--accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
 }
-
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Grids e Cards Compartilhados */
+/* Grid Layouts */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 768px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .games-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .games-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
-.game-card {
-  background-color: var(--bg-color-light);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+/* ═══════════════════════════════════════════ LAYOUT AUTH ═══ */
+.auth-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.auth-bg-col {
+  flex: 1.4;
+  position: relative;
+  display: none;
+  background-size: cover;
+  background-position: center;
+  background-color: #070809;
+}
+
+@media (min-width: 900px) {
+  .auth-bg-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+
+.login-bg {
+  background-image: url('/assets/darkSouls_Desktop.jpg');
+  background-size: cover;
+  background-position: center center;
+}
+
+.cadastro-bg {
+  background-image: url('/assets/games_desktop.jpg');
+  background-size: cover;
+  background-position: center center;
+}
+
+.auth-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(7, 8, 9, 0.1) 0%, rgba(11, 12, 16, 0.85) 85%, rgba(11, 12, 16, 1) 100%);
+  z-index: 1;
+}
+
+.auth-bg-content {
+  position: relative;
+  z-index: 2;
+  padding: 4rem;
+}
+
+.auth-bg-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+.auth-bg-subtitle {
+  font-family: 'Barlow', sans-serif;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Coluna Direita (Formulário) */
+.auth-form-col {
+  flex: 1;
+  background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  position: relative;
+  min-width: 420px;
+  max-width: 560px;
 }
 
-.game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(102, 252, 241, 0.2);
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  margin-bottom: 2rem;
 }
 
-.card-img {
+.auth-logo:hover {
+  color: var(--accent);
+}
+
+.dot-logo {
+  color: var(--accent);
+}
+
+.logo-icon {
+  color: var(--accent);
+}
+
+.auth-form-container {
+  max-width: 420px;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  margin: auto;
 }
 
-.card-img-placeholder {
+.auth-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  font-family: 'Barlow', sans-serif;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-input {
+  background-color: var(--bg-input);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.375rem;
+  padding: 0.875rem 1rem;
+  color: var(--text-primary);
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(102, 252, 241, 0.3);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper .form-input {
   width: 100%;
-  height: 200px;
-  background-color: #333;
+  padding-right: 2.5rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #777;
 }
 
-.card-content {
-  padding: 1.5rem;
-  flex-grow: 1;
+.toggle-password:hover {
+  color: var(--text-primary);
+}
+
+.form-options {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.card-content h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+.forgot-link {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-decoration: none;
 }
 
-.card-content p {
-  margin-bottom: 1.5rem;
-  color: #aaa;
+.forgot-link:hover {
+  text-decoration: underline;
 }
 
-.card-content .btn {
-  margin-top: auto;
+.form-error {
+  color: var(--destructive);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
 }
 
-/* Badges */
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  background-color: var(--bg-color-light);
-  font-size: 0.75rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+.alert-error {
+  background-color: rgba(255, 77, 109, 0.1);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+  color: var(--destructive);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
 }
 
-.badge-accent {
+.alert-success {
   background-color: rgba(102, 252, 241, 0.1);
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
+  border: 1px solid rgba(102, 252, 241, 0.2);
+  color: var(--accent);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.btn-full {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.auth-switch {
+  margin-top: 2rem;
+  text-align: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.accent-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.accent-link:hover {
+  text-decoration: underline;
+}
+
+/* Checkbox customizado */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 1.25rem;
+  width: 1.25rem;
+  background-color: var(--bg-input);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.custom-checkbox .checkmark:after {
+  left: 0.4rem;
+  top: 0.2rem;
+  width: 0.3rem;
+  height: 0.6rem;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }

@@ -21,6 +21,8 @@ export class CadastroComponent {
   };
 
   errorMessage: string = '';
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 

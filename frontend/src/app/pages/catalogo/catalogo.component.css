@@ -1,35 +1,116 @@
-.catalog-container {
-  max-width: 1200px;
+.catalog-page {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
 }
 
-h2 {
+.catalog-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.catalog-header h2 {
+  font-family: 'Rajdhani', sans-serif;
   font-size: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 2px solid var(--bg-color-light);
-  padding-bottom: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  white-space: nowrap;
 }
 
-.filters-section {
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border-accent), transparent);
+}
+
+/* Filtros */
+.filters-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  background-color: var(--bg-color-light);
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
   padding: 1.5rem;
-  border-radius: var(--border-radius);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-accent);
+  border-radius: 0.75rem;
 }
 
-.filter-group {
-  flex: 1 1 250px;
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1 1 220px;
 }
 
+.filter-field label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-wrapper span {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-wrapper input {
+  padding-left: 2.5rem;
+}
+
+/* Empty State */
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
   text-align: center;
-  padding: 4rem;
-  background-color: var(--bg-color-light);
-  border-radius: var(--border-radius);
-  color: #aaa;
-  font-size: 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-accent);
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Results count */
+.results-info {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.results-info span {
+  color: var(--accent);
 }

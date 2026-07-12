@@ -18,12 +18,12 @@ export class LoginComponent {
   };
 
   errorMessage: string = '';
+  showPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     this.errorMessage = '';
-    
     this.authService.login(this.credentials).subscribe({
       next: () => {
         this.router.navigate(['/home']);

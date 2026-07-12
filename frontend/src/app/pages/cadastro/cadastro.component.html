@@ -1,38 +1,126 @@
-<div class="cadastro-container">
-  <h2>Cadastro</h2>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  
-  <form (ngSubmit)="onSubmit()" #cadastroForm="ngForm">
-    <div>
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" [(ngModel)]="user.nome" required #nome="ngModel">
-      <div *ngIf="nome.invalid && nome.touched" class="error">Nome é obrigatório.</div>
+<div class="auth-layout">
+  <!-- Coluna da Esquerda (Imagem) -->
+  <div class="auth-bg-col cadastro-bg">
+    <div class="auth-bg-overlay"></div>
+    <div class="auth-bg-content">
+      <h2 class="auth-bg-title">
+        Crie seu personagem para poder se aventurar em nosso <span class="accent-text">catálogo.</span>
+      </h2>
     </div>
-    
-    <div>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" [(ngModel)]="user.email" required #email="ngModel">
-      <div *ngIf="email.invalid && email.touched" class="error">Email é obrigatório.</div>
+  </div>
+
+  <!-- Coluna da Direita (Formulário) -->
+  <div class="auth-form-col">
+    <a routerLink="/" class="auth-logo">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0-20 0z"></path></svg>
+      <span>CATÁLOGO <span class="dot-logo">.</span></span>
+    </a>
+
+    <div class="auth-form-container">
+      <h1 class="auth-title">Criar Conta</h1>
+      <p class="auth-subtitle">Junte-se à comunidade gamer</p>
+
+      <form #cadastroForm="ngForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <label for="nome" class="form-label">Nome</label>
+          <input 
+            type="text" 
+            id="nome" 
+            name="nome"
+            [(ngModel)]="user.nome"
+            required
+            class="form-input" 
+            placeholder="Seu nome completo"
+            #nomeInput="ngModel"
+          >
+          <div *ngIf="nomeInput.touched && nomeInput.invalid" class="form-error">
+            Nome é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            [(ngModel)]="user.email"
+            required
+            class="form-input" 
+            placeholder="seu@email.com"
+            #emailInput="ngModel"
+          >
+          <div *ngIf="emailInput.touched && emailInput.invalid" class="form-error">
+            Email inválido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="senha" class="form-label">Senha</label>
+          <div class="input-wrapper">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              id="senha" 
+              name="senha"
+              [(ngModel)]="user.senha"
+              required
+              minlength="8"
+              class="form-input" 
+              placeholder="Mínimo 8 caracteres"
+              #senhaInput="ngModel"
+            >
+            <button type="button" class="btn-icon toggle-password" (click)="showPassword = !showPassword" aria-label="Mostrar/Ocultar senha">
+              <svg *ngIf="!showPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              <svg *ngIf="showPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+          <div *ngIf="senhaInput.touched && senhaInput.invalid" class="form-error">
+            Senha inválida (mín. 8 caracteres).
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+          <div class="input-wrapper">
+            <input 
+              [type]="showConfirmPassword ? 'text' : 'password'" 
+              id="confirmarSenha" 
+              name="confirmarSenha"
+              [(ngModel)]="user.confirmarSenha"
+              required
+              class="form-input" 
+              placeholder="Repita a senha"
+              #confirmarSenhaInput="ngModel"
+            >
+             <button type="button" class="btn-icon toggle-password" (click)="showConfirmPassword = !showConfirmPassword" aria-label="Mostrar/Ocultar senha">
+              <svg *ngIf="!showConfirmPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              <svg *ngIf="showConfirmPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="custom-checkbox">
+            <input type="checkbox" name="aceite_lgpd" [(ngModel)]="user.aceite_lgpd" required #aceiteInput="ngModel">
+            <span class="checkmark"></span>
+            <span class="checkbox-text">
+              Li e concordo com a <a href="#" class="accent-link">Política de Privacidade (LGPD)</a>
+            </span>
+          </label>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert-error">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn btn-full" [disabled]="cadastroForm.invalid">
+          <span>CADASTRAR</span>
+        </button>
+      </form>
+
+      <p class="auth-switch text-center">
+        Já tem conta? <a routerLink="/login" class="accent-link">Entrar</a>
+      </p>
     </div>
-    
-    <div>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" [(ngModel)]="user.senha" required #senha="ngModel">
-      <div *ngIf="senha.invalid && senha.touched" class="error">Senha é obrigatória.</div>
-    </div>
-    
-    <div>
-      <label for="confirmarSenha">Confirmar Senha:</label>
-      <input type="password" id="confirmarSenha" name="confirmarSenha" [(ngModel)]="user.confirmarSenha" required>
-    </div>
-    
-    <div>
-      <input type="checkbox" id="aceite_lgpd" name="aceite_lgpd" [(ngModel)]="user.aceite_lgpd" required>
-      <label for="aceite_lgpd">Li e concordo com a Política de Privacidade (LGPD)</label>
-    </div>
-    
-    <button type="submit" [disabled]="!cadastroForm.valid || user.senha !== user.confirmarSenha || !user.aceite_lgpd">Cadastrar</button>
-  </form>
-  
-  <p>Já tem uma conta? <a routerLink="/login">Faça login</a></p>
+  </div>
 </div>

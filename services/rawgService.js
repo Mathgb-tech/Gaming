@@ -28,8 +28,6 @@ const fetchFromRawg = async (endpoint, queryParams = {}) => {
 
 const rawgService = {
   getFeaturedGames: async () => {
-    // Exemplo: Jogos muito bem avaliados lançados recentemente
-    // Usaremos datas para pegar jogos deste ou do último ano
     const currentYear = new Date().getFullYear();
     const startDate = `${currentYear - 1}-01-01`;
     const endDate = `${currentYear}-12-31`;

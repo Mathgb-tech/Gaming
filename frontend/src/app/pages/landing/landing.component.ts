@@ -27,21 +27,32 @@ export class LandingComponent implements OnInit, OnDestroy {
     });
   }
 
+  get currentGame(): Game | null {
+    return this.featuredGames.length > 0 ? this.featuredGames[this.currentIndex] : null;
+  }
+
   startCarousel(): void {
     if (this.featuredGames.length > 0) {
       this.carouselInterval = setInterval(() => {
         this.currentIndex = (this.currentIndex + 1) % this.featuredGames.length;
-      }, 3000); // Muda a cada 3 segundos
+      }, 4500);
     }
   }
 
   setIndex(index: number): void {
     this.currentIndex = index;
-    // Reseta o timer ao interagir
     if (this.carouselInterval) {
       clearInterval(this.carouselInterval);
       this.startCarousel();
     }
+  }
+
+  prevSlide(): void {
+    this.setIndex(this.currentIndex > 0 ? this.currentIndex - 1 : this.featuredGames.length - 1);
+  }
+
+  nextSlide(): void {
+    this.setIndex(this.currentIndex < this.featuredGames.length - 1 ? this.currentIndex + 1 : 0);
   }
 
   ngOnDestroy(): void {

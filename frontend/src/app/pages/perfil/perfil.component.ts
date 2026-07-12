@@ -23,6 +23,8 @@ export class PerfilComponent implements OnInit {
 
   message = '';
   errorMessage = '';
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 

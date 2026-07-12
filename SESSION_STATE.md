@@ -73,6 +73,38 @@
 
 ## Status Final do Projeto
 - **Progresso:** 100% Concluído.
-- **Pendências Mínimas Restantes:** Nenhuma impeditiva. O projeto compila 100% sem falhas. 
-- **O que falta para produção?** 
+- **Pendências Mínimas Restantes:** Nenhuma impeditiva. O projeto compila 100% sem falhas.
+- **O que falta para produção?**
   - Apenas as variáveis de ambiente `.env` precisam ser preenchidas por chaves válidas da RAWG e do banco real Supabase caso seja hospedado.
+
+---
+
+## Redesign Visual Completo — [APLICADO]
+**Data:** 12/07/2026
+
+### Design System
+- Tokens CSS globais em `styles.css`: `--bg-primary`, `--bg-card`, `--bg-input`, `--accent (#66fcf1)`, `--destructive`, `--border-accent`, `--radius`.
+- Fontes: `Rajdhani` (títulos), `Barlow` (corpo), `JetBrains Mono` (ratings/badges/mono).
+- Botões `.btn` (primário neon) e `.btn-ghost` (outline), ambos com `text-transform: uppercase`, `letter-spacing`, Rajdhani.
+- Game cards com `aspect-ratio: 2/3`, badge de rating sobreposto no canto, hover com `scale(1.03)` + glow neon.
+- Spinner de loading global reutilizável.
+- Grid responsivo: 2 colunas mobile → 3 tablet → 4-5 desktop.
+
+### Componentes Estilizados
+| Componente | Destaques |
+|---|---|
+| `AppComponent` | Navbar sticky com `backdrop-filter: blur`, **condicional** (oculta na rota `/` para dar lugar à navbar pública da Landing) |
+| `LandingComponent` | Navbar pública (`CATÁLOGO.` + Entrar/Cadastrar); Hero 2 colunas com grid decorativo de fundo, glow radial, heading `clamp()`, stats com divisores; Card flutuante animado com `animation: float`; Carousel corrigido (imagem + body em `flex-direction: column`, sem sobreposição de `position: absolute` conflitantes) |
+| `LoginComponent` / `CadastroComponent` | Refatorados para o layout "Split-screen" (imagem full à esquerda, form escuro à direita), logo no topo redirecionando para a Landing, toggle 👁️ de senha e links alinhados conforme Figma |
+| `PerfilComponent` | Avatar com inicial do nome + glow, cards de seção, botão danger para logout |
+| `HomeComponent` | Section headers com linha decorativa, carousel com setas e dots pill |
+| `CatalogoComponent` | Filter bar em card, ícone de lupa integrado, contador de resultados em mono, empty state com emoji + "Limpar Filtros" |
+| `DetalhesComponent` | Hero banner 55vh com overlap (margin-top negativo), 2 colunas + sidebar sticky, gallery de screenshots clicáveis, "Ler mais" expansível |
+| `NotFoundComponent` | `404` com animação glitch CSS pura |
+
+### Correções Específicas Finais (Sessão Atual)
+- **Ocultação da Global Nav:** Refatorado `app.component.ts` para ocultar o navbar não apenas na Landing (`/`), mas também em `/login` e `/cadastro`, permitindo o layout auth ocupar 100% da tela.
+- **Redesign Login & Cadastro (Figma Match):** Implementado o layout de tela dividida (`.auth-layout`). Metade da tela tem uma imagem overlaying escura (`Bem-vindo de volta` / `Comece sua jornada`) e a outra metade possui o form, ambos centralizados e contendo logo da landing no canto superior do lado direito do contêiner flex. Transferido o CSS modular deles para `styles.css` a fim de usar classes globais sem repetição.
+- **Bug do carousel com texto sobreposto (Landing):** Removido o `position: absolute` do bloco de texto. O card agora usa `flex-direction: column`.
+- **Interface `Game`** atualizada com `genres?: Genre[]` para suportar badges de gênero.
+- **Budget CSS** aumentado para `16kB/24kB` em `angular.json` para acomodar o CSS detalhado dos componentes.

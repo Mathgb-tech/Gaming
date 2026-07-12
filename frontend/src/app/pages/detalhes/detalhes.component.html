@@ -1,77 +1,114 @@
-<div class="detalhes-container">
-  
-  <div *ngIf="isLoading" class="loading-state">
+<div class="detalhes-page">
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state" style="padding: 8rem;">
     <div class="spinner"></div>
-    Carregando detalhes do jogo...
+    Carregando jogo...
   </div>
 
+  <!-- Error -->
   <div *ngIf="hasError" class="error-state">
     <h2>Jogo não encontrado</h2>
-    <p>O jogo que você está procurando não existe ou houve um erro de comunicação com a API.</p>
+    <p>O jogo que você está procurando não existe ou houve um problema de comunicação com a API.</p>
     <a routerLink="/catalogo" class="btn">Voltar ao Catálogo</a>
   </div>
 
-  <div *ngIf="game" class="game-content">
-    
-    <div class="banner">
+  <!-- Conteúdo -->
+  <div *ngIf="game">
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
       <img [src]="game.background_image" [alt]="game.name" *ngIf="game.background_image">
-      <div class="banner-overlay">
-        <h1>{{ game.name }}</h1>
-        <p class="rating">Nota RAWG: <strong>{{ game.rating }}</strong></p>
-      </div>
+      <div class="hero-banner-overlay"></div>
     </div>
 
-    <div class="meta-info">
-      <div class="meta-item">
-        <h3>Lançamento</h3>
-        <p>{{ game.released | date:'longDate' }}</p>
-      </div>
-      
-      <div class="meta-item">
-        <h3>Desenvolvedora(s)</h3>
-        <p>
-          <span *ngFor="let dev of game.developers; let last = last">
-            {{ dev.name }}<span *ngIf="!last">, </span>
-          </span>
-        </p>
-      </div>
+    <!-- Container com overlap -->
+    <div class="game-content">
+      <h1 class="game-title">{{ game.name }}</h1>
 
-      <div class="meta-item">
-        <h3>Plataformas</h3>
-        <p>
-          <span class="badge" *ngFor="let plat of game.platforms">
-            {{ plat.platform.name }}
-          </span>
-        </p>
-      </div>
+      <div class="content-layout">
 
-      <div class="meta-item">
-        <h3>Gêneros</h3>
-        <p>
-          <span class="badge badge-accent" *ngFor="let genre of game.genres">
-            {{ genre.name }}
-          </span>
-        </p>
-      </div>
-    </div>
+        <!-- Coluna principal -->
+        <div class="main-content">
 
-    <div class="description">
-      <h2>Sobre</h2>
-      <p>{{ game.description_raw }}</p>
-    </div>
+          <!-- Screenshots -->
+          <div class="screenshots-section" *ngIf="game.screenshots && game.screenshots.length > 0">
+            <p class="section-title">Galeria</p>
+            <img
+              [src]="activeScreenshot?.image"
+              [alt]="game.name"
+              class="main-screenshot"
+              (click)="descriptionExpanded = !descriptionExpanded"
+            >
+            <div class="thumbnails-row">
+              <img
+                *ngFor="let shot of game.screenshots"
+                [src]="shot.image"
+                [alt]="game.name"
+                class="thumb"
+                [class.active]="shot.id === activeScreenshot?.id"
+                (click)="selectScreenshot(shot)"
+              >
+            </div>
+          </div>
 
-    <div class="screenshots" *ngIf="game.screenshots && game.screenshots.length > 0">
-      <h2>Galeria</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item" *ngFor="let shot of game.screenshots">
-          <img [src]="shot.image" alt="Screenshot de {{ game.name }}">
+          <!-- Descrição -->
+          <div *ngIf="game.description_raw" style="margin-top: 2.5rem;">
+            <p class="section-title">Sobre</p>
+            <div class="description-text" [class.expanded]="descriptionExpanded">
+              {{ game.description_raw }}
+            </div>
+            <button class="read-more-btn" (click)="descriptionExpanded = !descriptionExpanded">
+              {{ descriptionExpanded ? '↑ Mostrar menos' : '↓ Ler mais' }}
+            </button>
+          </div>
+
         </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-card">
+
+            <!-- Rating em destaque -->
+            <div class="rating-display">
+              <div class="rating-number">{{ game.rating }}</div>
+              <div class="rating-label">Nota RAWG</div>
+            </div>
+
+            <!-- Metadados -->
+            <ul class="meta-list">
+              <li>
+                <span class="meta-key">Lançamento</span>
+                <span class="meta-value">{{ game.released | date:'dd/MM/yyyy' }}</span>
+              </li>
+              <li>
+                <span class="meta-key">Desenvolvedora</span>
+                <span class="meta-value">{{ getDevelopers() }}</span>
+              </li>
+              <li>
+                <span class="meta-key">Plataformas</span>
+                <div class="badge-list">
+                  <span class="badge" *ngFor="let plat of game.platforms">{{ plat.platform.name }}</span>
+                </div>
+              </li>
+              <li>
+                <span class="meta-key">Gêneros</span>
+                <div class="badge-list">
+                  <span class="badge badge-accent" *ngFor="let genre of game.genres">{{ genre.name }}</span>
+                </div>
+              </li>
+            </ul>
+
+            <div class="sidebar-actions">
+              <a routerLink="/catalogo" class="btn-ghost">← Catálogo</a>
+            </div>
+
+          </div>
+        </aside>
+
       </div>
     </div>
 
-    <div class="actions">
-      <a routerLink="/catalogo" class="btn-outline">Voltar ao Catálogo</a>
-    </div>
   </div>
 
 </div>
